@@ -1,0 +1,16 @@
+com\scooby\pms\model\HShare.class
+com\scooby\pms\model\HExpences.class
+com\scooby\pms\model\Session.class
+com\scooby\pms\model\HFiber.class
+com\scooby\pms\model\HTransaction.class
+com\scooby\pms\model\HAccount.class
+com\scooby\pms\model\HSupportingdata.class
+com\scooby\pms\model\HMachine.class
+com\scooby\pms\model\HJornal.class
+com\scooby\pms\model\HCloth.class
+com\scooby\pms\model\HShareHolder.class
+com\scooby\pms\model\HType.class
+com\scooby\pms\model\HUser.class
+com\scooby\pms\model\HObject.class
+com\scooby\pms\model\HTransactionDetails.class
+com\scooby\pms\model\HTati.class

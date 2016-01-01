@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- Scans within the base package of the application for @Components to configure as beans -->
+	<!-- <context:component-scan base-package="com.scooby.prms" />-->
+	
+	<bean id="jdbcService" class="com.scooby.pms.utils.JdbcService">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate" />
+		</property>
+		<property name="transactionManager">
+			<ref bean="transactionManager"/>
+		</property>
+	</bean>
+	
+	
+	<!-- Dao Declaration -->
+	<bean id="userDao" class="com.scooby.pms.dao.impl.UserDAO">
+		<property name="jdbcService">
+			<ref bean="jdbcService" />
+		</property>
+	</bean>
+	
+	<bean id="supportingdataDao" class="com.scooby.pms.dao.impl.SupportingdataDAO">
+		<property name="jdbcService">
+			<ref bean="jdbcService" />
+		</property>
+	</bean>
+	
+	<bean id="sessionDao" class="com.scooby.pms.dao.impl.SessionDao">
+		<property name="jdbcService">
+			<ref bean="jdbcService" />
+		</property>
+	</bean>
+	
+		
+	<!-- Service Declaration -->
+	<bean id="userService" class="com.scooby.pms.services.impl.UserService">
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+	</bean>
+	
+	<bean id="supportingdataService" class="com.scooby.pms.services.impl.SupportingdataService">
+		<property name="supportingdataDao">
+			<ref bean="supportingdataDao" />
+		</property>
+	</bean>
+	
+	<bean id="sessionService" class="com.scooby.pms.services.impl.SessionService">
+		<property name="userSession">
+			<ref bean="userSession" />
+		</property>
+		<property name="sessionDao">
+			<ref bean="sessionDao" />
+		</property>
+	</bean>
+	
+	<!-- Controller Declaration -->
+	<bean class="com.scooby.pms.controller.HomeController">
+		<property name="sessionService">
+			<ref bean="sessionService" />
+		</property>
+	</bean>
+	
+	<bean class="com.scooby.pms.controller.UserController">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="supportingdataService">
+			<ref bean="supportingdataService" />
+		</property>
+		<property name="sessionService">
+			<ref bean="sessionService" />
+		</property>
+	</bean>
+	
+	<bean id="userSession" class="com.scooby.pms.model.UserSession" scope="session">
+		<aop:scoped-proxy />
+	</bean>
+	 
+</beans>
